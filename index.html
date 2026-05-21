@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jarory 記帳網站</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- 背景模糊球 -->
+  <div class="bg-circle bg1"></div>
+  <div class="bg-circle bg2"></div>
+
+  <!-- 主容器 -->
+  <main class="app">
+
+    <!-- 標題 -->
+    <section class="hero">
+      <h1>Jarory 記帳網站</h1>
+      <p>記錄你的每一筆收入與支出</p>
+    </section>
+
+    <!-- 總覽卡 -->
+    <section class="summary">
+
+      <div class="summary-card balance">
+        <h3>目前餘額</h3>
+        <h2 id="balance">$0</h2>
+      </div>
+
+      <div class="summary-grid">
+
+        <div class="summary-card income">
+          <h3>收入</h3>
+          <p id="income">$0</p>
+        </div>
+
+        <div class="summary-card expense">
+          <h3>支出</h3>
+          <p id="expense">$0</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 預算 -->
+    <section class="budget-card">
+      <div class="budget-top">
+        <h3>本月預算</h3>
+
+        <input
+          type="number"
+          id="budgetInput"
+          placeholder="設定預算">
+      </div>
+
+      <div class="budget-progress">
+        <div class="budget-bar" id="budgetBar"></div>
+      </div>
+
+      <p id="budgetText">
+        已使用 0%
+      </p>
+    </section>
+
+    <!-- 新增紀錄 -->
+    <section class="form-card">
+
+      <h2>新增紀錄</h2>
+
+      <form id="transactionForm">
+
+        <input
+          type="text"
+          id="text"
+          placeholder="輸入名稱"
+          required>
+
+        <input
+          type="number"
+          id="amount"
+          placeholder="輸入金額"
+          required>
+
+        <select id="category">
+
+          <option value="飲食">飲食</option>
+          <option value="交通">交通</option>
+          <option value="娛樂">娛樂</option>
+          <option value="學習">學習</option>
+          <option value="薪資">薪資</option>
+          <option value="其他">其他</option>
+
+        </select>
+
+        <select id="type">
+
+          <option value="expense">支出</option>
+          <option value="income">收入</option>
+
+        </select>
+
+        <button type="submit">
+          新增紀錄
+        </button>
+
+      </form>
+    </section>
+
+    <!-- 圖表分析 -->
+    <section class="chart-section">
+
+        <div class="chart-card">
+            <h2>支出比例</h2>
+
+            <canvas id="expenseChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+            <h2>收支趨勢</h2>
+
+            <canvas id="trendChart"></canvas>
+        </div>
+
+    </section>
+
+    <!-- 紀錄列表 -->
+    <section class="history-card">
+
+        <div class="history-top">
+
+            <h2>交易紀錄</h2>
+
+            <button id="clearAllBtn">
+            清除全部
+            </button>
+
+        </div>
+
+        <ul id="list"></ul>
+
+    </section>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+
+</body>
+
+
+</html>
