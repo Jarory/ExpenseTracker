@@ -1,3 +1,12 @@
+// 控制月份
+let currentDate = new Date();
+
+let currentMonth =
+  currentDate.getMonth();
+
+let currentYear =
+  currentDate.getFullYear();
+
 let expenseChart;
 let trendChart;
 const balance = document.getElementById("balance");
@@ -48,14 +57,16 @@ form.addEventListener("submit", e => {
 
   const transaction = {
 
-    id:Date.now(),
+  id:Date.now(),
 
-    text,
-    amount,
-    category,
-    type
+  text,
+  amount,
+  category,
+  type,
 
-  };
+  date:new Date()
+
+};
 
   transactions.push(transaction);
 
@@ -73,13 +84,27 @@ form.addEventListener("submit", e => {
 
 function updateUI(){
 
+  updateMonthDisplay();
+
   list.innerHTML = "";
+
+  const filteredTransactions =
+  transactions.filter(transaction => {
+
+    const date =
+      new Date(transaction.date);
+
+    return (
+      date.getMonth() === currentMonth &&
+      date.getFullYear() === currentYear
+    );
+
+});
 
   let incomeTotal = 0;
   let expenseTotal = 0;
 
-  transactions.forEach(transaction => {
-
+  filteredTransactions.forEach(transaction => {
     const li = document.createElement("li");
 
     li.classList.add("transaction");
@@ -225,12 +250,29 @@ function saveData(){
 function renderCharts(){
 
   /* =========================
+     篩選當前月份資料
+  ========================= */
+
+  const filteredTransactions =
+    transactions.filter(transaction => {
+
+      const date =
+        new Date(transaction.date);
+
+      return (
+        date.getMonth() === currentMonth &&
+        date.getFullYear() === currentYear
+      );
+
+    });
+
+  /* =========================
      支出分類統計
   ========================= */
 
   const categoryData = {};
 
-  transactions.forEach(transaction => {
+  filteredTransactions.forEach(transaction => {
 
     if(transaction.type === "expense"){
 
@@ -294,7 +336,7 @@ function renderCharts(){
   const trendLabels = [];
   const trendData = [];
 
-  transactions.forEach(transaction => {
+  filteredTransactions.forEach(transaction => {
 
     trendLabels.push(transaction.text);
 
@@ -406,6 +448,59 @@ clearAllBtn.addEventListener("click", () => {
   transactions = [];
 
   saveData();
+
+  updateUI();
+
+});
+
+/* ========================================
+   月份顯示
+======================================== */
+
+function updateMonthDisplay(){
+
+  const monthText =
+    document.getElementById(
+      "currentMonth"
+    );
+
+  monthText.textContent =
+    `${currentYear} / ${
+      String(currentMonth + 1)
+      .padStart(2,"0")
+    }`;
+
+}
+
+/* ========================================
+   切換月份
+======================================== */
+
+document
+.getElementById("prevMonth")
+.addEventListener("click", () => {
+
+  currentMonth--;
+
+  if(currentMonth < 0){
+    currentMonth = 11;
+    currentYear--;
+  }
+
+  updateUI();
+
+});
+
+document
+.getElementById("nextMonth")
+.addEventListener("click", () => {
+
+  currentMonth++;
+
+  if(currentMonth > 11){
+    currentMonth = 0;
+    currentYear++;
+  }
 
   updateUI();
 
